@@ -16,7 +16,6 @@ class AniversariantesController extends AbstractController
         $dia = $hoje->format('d');
         $mes = $hoje->format('m');
 
-        
         $pessoas = $entityManager->getRepository('App\Entity\Pessoa')->findAll();
 
         $aniversariantes = [];
@@ -29,6 +28,7 @@ class AniversariantesController extends AbstractController
                 $aniversariantes[] = $pessoa->ToArray();
             }
         }
+
 
         if (empty($aniversariantes)) {
 

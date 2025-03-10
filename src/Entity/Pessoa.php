@@ -89,7 +89,7 @@ class Pessoa
 
     public function getDataNascimentoFormatada(): string
     {
-        return $this->dataNascimento ? $this->dataNascimento->format('d-m-Y') : '';
+        return $this->dataNascimento ? $this->dataNascimento->format('d/m/Y') : '';
     }
 
     public function ToArray(): array
