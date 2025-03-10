@@ -33,7 +33,7 @@ export default function AniversariantesSlide() {
 
   const aniversariantes = Object.values(dados.dados);
   const pessoa = aniversariantes[index];
-  const turma = pessoa.cargo.nome === "ALUNO" && pessoa.turma ? Object.values(pessoa.turma)[1] : "";
+  const turma = pessoa.cargo.nome === "ALUNO" && pessoa.turma ? Object.values(pessoa.turma)[0] : "";
 
   const bgColor = useColorModeValue("whiteAlpha.300", "whiteAlpha.200");
   const borderColor = useColorModeValue("rgba(255, 255, 255, 0.2)", "rgba(255, 255, 255, 0.1)");
@@ -72,7 +72,7 @@ export default function AniversariantesSlide() {
               </Text>
               {turma && (
                 <Text fontSize="lg" color="gray.200">
-                  Turma: {turma}
+                  {turma}
                 </Text>
               )}
             </VStack>
