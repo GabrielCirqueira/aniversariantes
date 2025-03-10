@@ -38,6 +38,7 @@ class Pessoa
         return $this->id;
     }
 
+    
     public function getNome(): string
     {
         return $this->nome;

@@ -21,6 +21,7 @@ class Turma
     #[ORM\OneToMany(mappedBy: "turma", targetEntity: Pessoa::class)]
     private Collection $estudantes;
 
+    
     public function __construct()
     {
         $this->estudantes = new ArrayCollection();
