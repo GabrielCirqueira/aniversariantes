@@ -5,13 +5,24 @@ namespace App\Controller\Api;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class AniversariantesController extends AbstractController
 {
     #[Route('v1/api/aniversariantes', name: 'app_api_aniversariantes_getaniversariantes')]
-    public function getAniversariantes(EntityManagerInterface $entityManager): JsonResponse
-    {
+    public function getAniversariantes(
+        EntityManagerInterface $entityManager,
+        Request $request
+    ): JsonResponse {
+
+        $apiKey = $request->headers->get('Authorization');
+        $chaveCorreta = $_ENV['API_SECRET_KEY'];
+
+        if (!$apiKey || $apiKey !== "Bearer " . $chaveCorreta) {
+            return new JsonResponse(['error' => 'Acesso negado'], 403);
+        }
+
         $hoje = new \DateTime();
         $dia = $hoje->format('d');
         $mes = $hoje->format('m');
@@ -29,7 +40,6 @@ class AniversariantesController extends AbstractController
             }
         }
 
-
         if (empty($aniversariantes)) {
 
             $aniversariantes = array_filter($pessoas, function ($pessoa) use ($mes) {
@@ -42,7 +52,6 @@ class AniversariantesController extends AbstractController
             $tipo = "mensal";
         }
  
-
         return $this->json([
             'Aniversariantes' => $tipo,
             'dados' => $aniversariantes

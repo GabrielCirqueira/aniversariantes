@@ -1,34 +1,19 @@
-// useFetchAniversariantes.ts
 import { useEffect, useState } from "react";
-
-type Cargo = {
-  id: string;
-  nome: string;
-};
-
-type Turma = {
-  id: string;
-  [key: string]: string;
-};
-
-type Pessoa = {
-  nome: string;
-  dataNascimento: string;
-  cargo: Cargo;
-  turma: Turma | null;
-};
-
-type ApiResponse = {
-  Aniversariantes: string;
-  dados: Record<string, Pessoa>;
-};
+import { ApiResponse } from "@components/Types";
 
 export function useFetchAniversariantes() {
   const [dados, setDados] = useState<ApiResponse | null>(null);
   const [loading, setLoading] = useState(true);
+  const apiKey = import.meta.env.VITE_API_SECRET_KEY;
 
   useEffect(() => {
-    fetch("/v1/api/aniversariantes")
+    fetch("/v1/api/aniversariantes", {
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${apiKey}`,
+        "Content-Type": "application/json"
+      }
+    })  
       .then((res) => res.json())
       .then((data: ApiResponse) => {
         if (data && data.dados) {

@@ -16,7 +16,6 @@ class ImportarPessoasService
         $this->entityManager = $entityManager;
     }
 
-    
     public function importar(array $dados): array
     {
         $erros = [];
@@ -33,6 +32,11 @@ class ImportarPessoasService
             }
 
             $dataNascimento = \DateTime::createFromFormat('d/m/Y', $dataNascimentoStr);
+            
+            if (!$dataNascimento) {
+                $dataNascimento = \DateTime::createFromFormat('Y-m-d', $dataNascimentoStr);
+            }
+
             if (!$dataNascimento) {
                 $erros[] = "Erro na linha $index: Data de nascimento inválida.";
                 continue;
@@ -74,7 +78,7 @@ class ImportarPessoasService
 
             $this->entityManager->persist($pessoa);
             $this->entityManager->flush();
-    }
+        }
 
         return $erros;
     }

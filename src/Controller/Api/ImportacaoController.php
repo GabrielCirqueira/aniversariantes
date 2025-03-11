@@ -13,6 +13,14 @@ class ImportacaoController extends AbstractController
     #[Route('v1/api/importar-pessoas', methods: ['POST'])]
     public function importar(Request $request, ImportarPessoasService $importarPessoasService): JsonResponse
     {
+
+        $apiKey = $request->headers->get('Authorization');
+        $chaveCorreta = $_ENV['API_SECRET_KEY'];
+
+        if (!$apiKey || $apiKey !== "Bearer " . $chaveCorreta) {
+            return new JsonResponse(['error' => 'Acesso negado'], 403);
+        }
+        
         $dados = json_decode($request->getContent(), true);
 
         if (!is_array($dados)) {
